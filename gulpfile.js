@@ -15,15 +15,14 @@ var paths = {
 };
 
 gulp.task('sass', function(done) {
-  gulp.src('./scss/ionic.scss')
+  gulp.src('./scss/app.scss')
     .pipe(sass())
-    .pipe(concat('ionic.css'))
-    .pipe(gulp.dest('./www/css/ionic/'))
+    .pipe(gulp.dest('./www/css/'))
     .pipe(minifyCss({
       keepSpecialComments: 0
     }))
     .pipe(rename({ extname: '.min.css' }))
-    .pipe(gulp.dest('./www/css/ionic/'))
+    .pipe(gulp.dest('./www/css/'))
     .on('end', done);
 });
 
@@ -33,7 +32,7 @@ gulp.task('watch', function() {
 
 // Bootstrap the project by loading ionic from bower and copying over
 // Any sass files (requires the --sass flag to gulp bootstrap as it's potentially destructive).
-gulp.task('bootstrap', function() {
+gulp.task('init', function() {
   var bowerQ = Q.defer(), sassQ = Q.defer();
   console.log('Installing latest stable release of Ionic from bower');
 
