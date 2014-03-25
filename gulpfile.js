@@ -15,7 +15,7 @@ var paths = {
 };
 
 gulp.task('sass', function(done) {
-  gulp.src('./scss/app.scss')
+  gulp.src('./scss/ionic.app.scss')
     .pipe(sass())
     .pipe(gulp.dest('./www/css/'))
     .pipe(minifyCss({
@@ -33,7 +33,7 @@ gulp.task('watch', function() {
 // Bootstrap the project by loading ionic from bower and copying over
 // Any sass files (requires the --sass flag to gulp bootstrap as it's potentially destructive).
 gulp.task('init', function() {
-  var bowerQ = Q.defer(), sassQ = Q.defer();
+  var bowerQ = Q.defer();
   console.log('Installing latest stable release of Ionic from bower');
 
   var ls = child_process.spawn('bower', ['install'], {
@@ -43,21 +43,7 @@ gulp.task('init', function() {
     bowerQ.resolve();
   });
 
-  bowerQ.promise.then(function() {
-    if(argv.sass) {
-      console.log('Creating sass files');
-      ncp('./www/lib/ionic/scss/', 'scss', function(err) {
-        if(err) {
-          console.error(err);
-        }
-        sassQ.resolve();
-      });
-    } else {
-      sassQ.resolve();
-    }
-  });
-
-  return Q.all([bowerQ.promise, sassQ]);
+  return Q.all([bowerQ.promise]);
 });
 
 gulp.task('default', ['sass']);

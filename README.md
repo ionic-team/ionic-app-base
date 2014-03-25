@@ -39,20 +39,18 @@ $ gulp bootstrap --sass
 
 This will download the most recent Ionic release from bower, and copy over the SCSS files into `./sass` for future editing.
 
-## Modifying SCSS Files 
+## Using Sass (optional)
 
-This project makes it easy to customize the style of Ionic using the SCSS files we use to customize the look of Ionic.
+This project makes it easy to use Sass (the SCSS syntax) in your projects. This enables you to override styles from Ionic, and benefit from
+Sass's great features.
 
-Just update the files in `./scss/`, and run `gulp` or `gulp watch` to rebuild the CSS files for Ionic.
+Just update the `./scss/ionic.app.scss` file, and run `gulp` or `gulp watch` to rebuild the CSS files for Ionic.
 
-## Updating the SCSS Files
+Note: if you choose to use the Sass method, make sure to remove the included `ionic.css` file in `index.html`, and then uncomment
+the include to your `ionic.app.css` file which now contains all your Sass code and Ionic itself:
 
-In order to not clobber your work, the SCSS files will not be automatically updated in the future, even if you update the local ionic version from bower.
-
-If you have made changes to your SCSS files and want to update to the new Ionic ones, we recommend doing a manual diff, or if you wish, overwriting your changes using:
-
-```bash
-$ gulp bootstrap --sass
+```html
+<!-- IF using Sass (run gulp sass first), then remove the CSS include above
+<link href="css/ionic.app.css" rel="stylesheet">
+-->
 ```
-
-Of course, you can also perform a manual bower update and copy the files over.
