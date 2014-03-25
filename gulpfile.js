@@ -36,7 +36,7 @@ gulp.task('init', function() {
   var bowerQ = Q.defer(), sassQ = Q.defer();
   console.log('Installing latest stable release of Ionic from bower');
 
-  var ls = child_process.spawn('bower', ['install', 'driftyco/ionic-bower'], {
+  var ls = child_process.spawn('bower', ['install'], {
     stdio: 'inherit'
   });
   ls.on('close', function(code) {
