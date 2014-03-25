@@ -15,7 +15,7 @@ For example, to start a new Ionic project with the default tabs interface, make 
 $ sudo npm install -g ionic
 ```
 
-Then, run:
+Then run:
 
 ```bash
 $ sudo npm install -g ionic
@@ -39,7 +39,15 @@ $ gulp bootstrap --sass
 
 This will download the most recent Ionic release from bower, and copy over the SCSS files into `./sass` for future editing.
 
-Note: the SCSS files will not be automatically updated lin the future, even if you update the local ionic version from bower.
+## Modifying SCSS Files 
+
+This project makes it easy to customize the style of Ionic using the SCSS files we use to customize the look of Ionic.
+
+Just update the files in `./scss/`, and run `gulp` or `gulp watch` to rebuild the CSS files for Ionic.
+
+## Updating the SCSS Files
+
+In order to not clobber your work, the SCSS files will not be automatically updated in the future, even if you update the local ionic version from bower.
 
 If you have made changes to your SCSS files and want to update to the new Ionic ones, we recommend doing a manual diff, or if you wish, overwriting your changes using:
 
@@ -47,4 +55,4 @@ If you have made changes to your SCSS files and want to update to the new Ionic 
 $ gulp bootstrap --sass
 ```
 
-or performing a manual bower update and copy.
+Of course, you can also perform a manual bower update and copy the files over.
