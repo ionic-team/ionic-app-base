@@ -2,6 +2,6 @@
   "name": "ionic-app-base",
   "private": true,
   "dependencies": {
-    "ionic": "1.0.0-beta.1"
+    "ionic": "driftyco/ionic#1.0.0-beta.1"
   }
 }
