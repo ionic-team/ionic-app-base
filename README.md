@@ -7,15 +7,15 @@ bower.
 
 ## Using this project
 
-We recommend using the `ionic` utility to create new Ionic projects that are based on this project but use a ready-made starter template. For example, to start a new Ionic project with the default tabs interface, run:
+We recommend using the `ionic` utility to create new Ionic projects that are based on this project but use a ready-made starter template.
 
-First, make sure the `ionic` utility is installed:
+For example, to start a new Ionic project with the default tabs interface, make sure the `ionic` utility is installed:
 
 ```bash
 $ sudo npm install -g ionic
 ```
 
-Then, to start a new project based on the `tabs` template, run:
+Then, run:
 
 ```bash
 $ sudo npm install -g ionic
