@@ -34,7 +34,7 @@ To use this project as is, first clone the repo from GitHub, then run:
 $ cd ionic-app-base
 $ sudo npm install -g bower
 $ npm install
-$ gulp bootstrap --sass
+$ gulp init
 ```
 
 This will download the most recent Ionic release from bower, and copy over the SCSS files into `./sass` for future editing.
