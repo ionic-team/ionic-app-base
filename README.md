@@ -2,8 +2,7 @@ Ionic App Base
 =====================
 
 A starting project for Ionic that optionally supports
-using custom SCSS, and makes it easy to update Ionic through
-bower.
+using custom SCSS.
 
 ## Using this project
 
@@ -32,12 +31,10 @@ To use this project as is, first clone the repo from GitHub, then run:
 
 ```bash
 $ cd ionic-app-base
-$ sudo npm install -g bower
+$ sudo npm install -g cordova ionic gulp
 $ npm install
 $ gulp init
 ```
-
-This will download the most recent Ionic release from bower, and copy over the SCSS files into `./sass` for future editing.
 
 ## Using Sass (optional)
 

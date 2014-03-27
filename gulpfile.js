@@ -1,4 +1,3 @@
-var bower = require('bower');
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
@@ -23,11 +22,6 @@ gulp.task('sass', function(done) {
 
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
-});
-
-gulp.task('init', function() {
-  console.log('Installing latest stable release of Ionic from bower');
-  return bower.commands.install();
 });
 
 gulp.task('default', ['sass']);
