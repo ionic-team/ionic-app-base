@@ -21,7 +21,7 @@ $ sudo npm install -g ionic
 $ ionic start myProject tabs
 ```
 
-More info on this can be found on the Ionic [Getting Started](ionicframework.com/getting-started) page.
+More info on this can be found on the Ionic [Getting Started](http://ionicframework.com/getting-started) page.
 
 ## Installation
 
