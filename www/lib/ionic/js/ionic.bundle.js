@@ -8,7 +8,7 @@
  * Copyright 2014 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v0.9.27
+ * Ionic, v1.0.0-beta.1
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -25,7 +25,7 @@
 window.ionic = {
   controllers: {},
   views: {},
-  version: '0.9.27'
+  version: '1.0.0-beta.1'
 };
 
 (function(ionic) {
@@ -653,7 +653,7 @@ window.ionic = {
     // whatever lookup was done to find this element failed to find it
     // so we can't listen for events on it.
     if(element === null) {
-      console.error('Null element passed to gesture (element does not exist). Not listening for gesture');
+      void 0;
       return;
     }
 
@@ -2017,7 +2017,7 @@ window.ionic = {
      */
     device: function() {
       if(window.device) return window.device;
-      if(this.isCordova()) console.error('device plugin required');
+      if(this.isCordova()) void 0;
       return {};
     },
 
@@ -2357,7 +2357,7 @@ window.ionic = {
 
     if(ele.disabled || ele.type === 'file' || ele.type === 'range') return;
 
-    console.debug('tapElement', ele.tagName, ele.className);
+    void 0;
 
     var c = getCoordinates(e);
 
@@ -2383,7 +2383,7 @@ window.ionic = {
     }
 
     if(target.control) {
-      console.debug('tapElement, target.control, stop');
+      void 0;
       return stopEvent(e);
     }
   };
@@ -2397,7 +2397,7 @@ window.ionic = {
 
     if( isRecentTap(e) ) {
       // if a tap in the same area just happened, don't continue
-      console.debug('tapPolyfill', 'isRecentTap', ele.tagName);
+      void 0;
       return stopEvent(e);
     }
 
@@ -2425,26 +2425,7 @@ window.ionic = {
 
   function preventGhostClick(e) {
 
-    console.debug((function(){
-      // Great for debugging, and thankfully this gets removed from the build, OMG it's ugly
-
-      if(e.target.control) {
-        // this is a label that has an associated input
-        // the native layer will send the actual event, so stop this one
-        console.debug('preventGhostClick', 'label');
-
-      } else if(isRecentTap(e)) {
-        // a tap has already happened at these coordinates recently, ignore this event
-        console.debug('preventGhostClick', 'isRecentTap', e.target.tagName);
-
-      } else if(isScrolledSinceStart(e)) {
-        // this click's coordinates are different than its touchstart/mousedown, must have been scrolling
-        console.debug('preventGhostClick', 'isScrolledSinceStart, startCoordinates, x:' + startCoordinates.x + ' y:' + startCoordinates.y);
-      }
-
-      var c = getCoordinates(e);
-      return 'click at x:' + c.x + ', y:' + c.y;
-    })());
+    void 0;
 
 
     if(e.target.control || isRecentTap(e) || isScrolledSinceStart(e)) {
@@ -2895,7 +2876,7 @@ function androidKeyboardFix() {
     if (rememberedDeviceWidth !== window.innerWidth) {
       rememberedDeviceWidth = window.innerWidth;
       rememberedDeviceHeight = window.innerHeight;
-      console.info('orientation change. deviceWidth =', rememberedDeviceWidth, ', deviceHeight =', rememberedDeviceHeight);
+      void 0;
 
     //If the height changes, and it's less than before, we have a keyboard open
     } else if (rememberedDeviceHeight !== window.innerHeight &&
@@ -32196,7 +32177,7 @@ angular.module('ui.router.compat')
  * Copyright 2014 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v0.9.27
+ * Ionic, v1.0.0-beta.1
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -33425,7 +33406,7 @@ angular.module('ionic.service.popup', ['ionic.service.templateLoad'])
         pushAndShow(popup, data);
 
       }, function(err) {
-        console.error('Unable to load popup:', err);
+        void 0;
       });
 
       return q.promise;
@@ -34702,9 +34683,9 @@ function($timeout, $controller, $ionicBind) {
     '<div class="scroll-refresher">' +
     '<div class="ionic-refresher-content">' +
         '<i class="icon {{pullingIcon}} icon-pulling"></i>' +
-        '<div class="icon-pulling pulling-text" ng-bind-html="pullingText"></div>' +
+        '<span class="icon-pulling" ng-bind-html="pullingText"></span>' +
         '<i class="icon {{refreshingIcon}} icon-refreshing"></i>' +
-        '<div class="icon-refreshing refreshing-text" ng-bind-html="refreshingText"></div>' +
+        '<span class="icon-refreshing" ng-bind-html="refreshingText"></span>' +
       '</div>' +
     '</div>',
     compile: function($element, $attrs) {
@@ -34860,7 +34841,7 @@ angular.module('ionic.ui.list', ['ngAnimate'])
  *   <ion-item ng-repeat="item in items"
  *     item="item"
  *     can-swipe="true"
- *     option-buttons="itemButtons">
+ *     left-buttons="myItemButtons">
  *   </ion-item>
  * </ion-list>
  * ```
@@ -34868,26 +34849,15 @@ angular.module('ionic.ui.list', ['ngAnimate'])
  * @param {string=} item-type The type of this item.  See [the list CSS page](/docs/components/#list) for available item types.
  * @param {expression=} option-buttons The option buttons to show when swiping the item to the left (if swiping is enabled).  Defaults to the ionList parent's option-buttons setting.  The format of each button object is:
  *   ```js
- *   $scope.itemButtons = [
- *      {
- *        text: 'Edit',
- *        type: 'Button',
- *        onTap: function(item) {
- *          alert('Edit Item: ' + item.id);
- *        }
- *      },
- *      {
- *        text: 'Share',
- *        type: 'Button',
- *        onTap: function(item) {
- *          alert('Share Item: ' + item.id);
- *        }
- *      }
- *   ];
+ *   {
+ *     text: 'Edit',
+ *     type: 'Button',
+ *     onTap: function(item) {}
+ *   }
  *   ```
  *
  * @param {expression=} item The 'object' representing this item, to be passed in to swipe, delete, and reorder callbacks.
- * @param {boolean=} can-swipe Whether or not this item can be swiped. Defaults ot the ionList parent's can-swipe setting.
+ * @param {boolean=} can-swipe Whether or not this item can be swiped. Defaults ot hte ionList parent's can-swipe setting.
  * @param {boolean=} can-delete Whether or not this item can be deleted. Defaults to the ionList parent's can-delete setting.
  * @param {boolean=} can-reorder Whether or not this item can be reordered. Defaults to the ionList parent's can-reorder setting.
  * @param {expression=} on-delete The expression to call when this item is deleted.
@@ -35034,7 +35004,7 @@ angular.module('ionic.ui.list', ['ngAnimate'])
  * @param {boolean=} can-swipe Whether child items can be swiped to reveal option buttons.
  * @param {string=} delete-icon The class name of the icon to show on child items while deleting.  Defaults to `ion-minus-circled`.
  * @param {string=} reorder-icon The class name to show on child items while reordering. Defaults to `ion-navicon`.
- * @param {string=} animation An animation class to apply to the list for animating when child items enter or exit the list. See [the animation CSS page](/docs/components/#animations) for available animation classes.
+ * @param {string=} animation An animation class to apply to the list for animating when child items enter or exit the list.
  */
 .directive('ionList', ['$timeout', function($timeout) {
   return {
@@ -35958,12 +35928,12 @@ angular.module('ionic.ui.sideMenu', ['ionic.service.gesture', 'ionic.service.vie
  * ```html
  * <body ng-controller="MainCtrl">
  *   <ion-side-menus>
- *     <ion-side-menu-content>
+ *     <ion-pane ion-side-menu-content>
  *       Content!
  *       <button ng-click="toggleLeftSideMenu()">
  *         Toggle Left Side Menu
  *       </button>
- *     </ion-side-menu-content>
+ *     </ion-pane>
  *     <ion-side-menu side="left">
  *       Left Menu!
  *     <ion-side-menu>
@@ -36054,7 +36024,7 @@ angular.module('ionic.ui.sideMenu', ['ionic.service.gesture', 'ionic.service.vie
  * <ion-side-menus>
  *   <!-- Center content -->
  *   <ion-side-menu-content ng-controller="ContentController">
- *   </ion-side-menu-content>
+ *   </io-side-menu-content>
  *
  *   <!-- Left menu -->
  *   <ion-side-menu side="left">
@@ -36322,8 +36292,7 @@ angular.module('ionic.ui.sideMenu', ['ionic.service.gesture', 'ionic.service.vie
     restrict: 'AC',
     require: '^ionSideMenus',
     link: function($scope, $element, $attr, sideMenuCtrl) {
-      //This is always left because scope.$eval('right') will try to read scope.right
-      var side = $attr.menuToggle || 'left';
+      var side = $scope.$eval($attr.menuToggle) || 'left';
       $element.bind('click', function(){
         if(side === 'left') {
           sideMenuCtrl.toggleLeft();

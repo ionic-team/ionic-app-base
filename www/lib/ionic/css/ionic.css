@@ -2,7 +2,7 @@
  * Copyright 2014 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v0.9.27
+ * Ionic, v1.0.0-beta.1
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -16,7 +16,7 @@
  * Copyright 2014 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v0.9.27
+ * Ionic, v1.0.0-beta.1
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -26,7 +26,7 @@
  *
  */
 /*!
-  Ionicons, v#{$ionicons-version}
+  Ionicons, v1.4.1
   Created by Ben Sperry for the Ionic Framework, http://ionicons.com/
   https://twitter.com/benjsperry  https://twitter.com/ionicframework
   MIT License: https://github.com/driftyco/ionicons
@@ -3066,43 +3066,6 @@ a.subdued {
  * --------------------------------------------------
  * Side panel structure
  */
-.menu-split {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: stretch;
-  -ms-flex-align: stretch;
-  -webkit-align-items: stretch;
-  -moz-align-items: stretch;
-  align-items: stretch;
-  width: 100%;
-  height: 100%; }
-  .menu-split .menu {
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 0 320px;
-    -moz-box-flex: 0;
-    -moz-flex: 0 0 320px;
-    -ms-flex: 0 0 320px;
-    flex: 0 0 320px;
-    overflow-y: auto;
-    width: 320px;
-    height: 100%;
-    border-right: 1px solid #eee; }
-  .menu-split .menu-content {
-    -webkit-box-flex: 1;
-    -webkit-flex: 1 0 auto;
-    -moz-box-flex: 1;
-    -moz-flex: 1 0 auto;
-    -ms-flex: 1 0 auto;
-    flex: 1 0 auto;
-    -webkit-transform: none;
-    -moz-transform: none;
-    transform: none;
-    box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.2), 1px 0px 2px rgba(0, 0, 0, 0.2); }
-
 .menu {
   position: absolute;
   top: 0;
@@ -3113,6 +3076,12 @@ a.subdued {
   max-height: 100%;
   width: 275px;
   background-color: #fff; }
+
+.menu-content {
+  -webkit-transform: none;
+  -moz-transform: none;
+  transform: none;
+  box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.2), 1px 0px 2px rgba(0, 0, 0, 0.2); }
 
 .grade-b .menu-content, .grade-c .menu-content {
   -webkit-box-sizing: content-box;
@@ -4026,6 +3995,48 @@ a.item-icon-right:after, button.item-icon-right:after, a.item-button-right:after
       -moz-transition: opacity 0.4s ease-in;
       transition: opacity 0.4s ease-in;
       opacity: 1; }
+
+/**
+ * Split Pane
+ * --------------------------------------------------
+ */
+.split-pane {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  -webkit-align-items: stretch;
+  -moz-align-items: stretch;
+  align-items: stretch;
+  width: 100%;
+  height: 100%; }
+
+.split-pane-menu {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 320px;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 320px;
+  -ms-flex: 0 0 320px;
+  flex: 0 0 320px;
+  overflow-y: auto;
+  width: 320px;
+  height: 100%;
+  border-right: 1px solid #eee; }
+  @media all and (max-width: 568px) {
+    .split-pane-menu {
+      border-right: none; } }
+
+.split-pane-content {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 auto;
+  -moz-box-flex: 1;
+  -moz-flex: 1 0 auto;
+  -ms-flex: 1 0 auto;
+  flex: 1 0 auto; }
 
 /**
  * Forms
