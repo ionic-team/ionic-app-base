@@ -2,7 +2,7 @@
  * Copyright 2014 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.0.0-beta.2
+ * Ionic, v1.0.0-beta.3
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -59,10 +59,6 @@ var deprecated = {
 };
 
 
-/**
- * Create a wrapping module to ease having to include too many
- * modules.
- */
 var IonicModule = angular.module('ionic', [
   // Angular deps
   'ngAnimate',
@@ -2493,6 +2489,13 @@ IonicModule
    * @param {number=} speed The number of milliseconds for the change to take.
    */
   'slide',
+  /**
+   * @ngdoc method
+   * @name $ionicSlideBoxDelegate#enableSlide
+   * @param {boolean=} shouldEnable Whether to enable sliding the slidebox.
+   * @returns {boolean} Whether sliding is enabled.
+   */
+  'enableSlide',
   /**
    * @ngdoc method
    * @name $ionicSlideBoxDelegate#previous
@@ -6348,7 +6351,7 @@ function($timeout, $compile, $ionicSlideBoxDelegate) {
       };
 
       this.onPagerClick = function(index) {
-        console.log('pagerClick', index);
+        void 0;
         $scope.pagerClick({index: index});
       };
 
@@ -6473,16 +6476,11 @@ function($rootScope, $animate, $ionicBind, $compile) {
     controller: '$ionicTab',
     scope: true,
     compile: function(element, attr) {
-      var navView = element[0].querySelector('ion-nav-view') ||
-        element[0].querySelector('data-ion-nav-view');
-      var navViewName = navView && navView.getAttribute('name');
 
-
-      //We create the tabNavElement in the compile phase so that the
+      //We create the tabNavTemplate in the compile phase so that the
       //attributes we pass down won't be interpolated yet - we want
       //to pass down the 'raw' versions of the attributes
-      var tabNavElement = angular.element(
-        '<ion-tab-nav' +
+      var tabNavTemplate = '<ion-tab-nav' +
         attrStr('ng-click', attr.ngClick) +
         attrStr('title', attr.title) +
         attrStr('icon', attr.icon) +
@@ -6490,8 +6488,7 @@ function($rootScope, $animate, $ionicBind, $compile) {
         attrStr('icon-off', attr.iconOff) +
         attrStr('badge', attr.badge) +
         attrStr('badge-style', attr.badgeStyle) +
-        '></ion-tab-nav>'
-      );
+        '></ion-tab-nav>';
 
       //Remove the contents of the element so we can compile them later, if tab is selected
       //We don't use regular transclusion because it breaks element inheritance
@@ -6503,6 +6500,10 @@ function($rootScope, $animate, $ionicBind, $compile) {
         var childElement;
         var tabsCtrl = ctrls[0];
         var tabCtrl = ctrls[1];
+
+        var navView = tabContent[0].querySelector('ion-nav-view') ||
+          tabContent[0].querySelector('data-ion-nav-view');
+        var navViewName = navView && navView.getAttribute('name');
 
         $ionicBind($scope, $attr, {
           animate: '=',
@@ -6534,6 +6535,7 @@ function($rootScope, $animate, $ionicBind, $compile) {
           }
         }
 
+        var tabNavElement = angular.element(tabNavTemplate);
         tabNavElement.data('$ionTabsController', tabsCtrl);
         tabNavElement.data('$ionTabController', tabCtrl);
         tabsCtrl.$tabsElement.append($compile(tabNavElement)($scope));
