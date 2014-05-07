@@ -2,7 +2,7 @@
 /**
  * Platform
  * --------------------------------------------------
- * Platform specific tweaks when in Cordova.
+ * Platform specific tweaks
  */
 
 .platform-ios7.platform-cordova {
@@ -26,7 +26,7 @@
       top: $bar-height + $ios7-statusbar-height;
     }
 
-    .has-header, 
+    .has-header,
     .bar-subheader {
       top: $bar-height + $ios7-statusbar-height;
     }
@@ -45,3 +45,16 @@
     margin-bottom: 20px;
   }
 }
+
+@media (orientation:landscape) {
+  .platform-ios7.platform-browser.platform-ipad {
+    position: fixed; // required for iPad 7 Safari
+  }
+}
+
+.platform-android2:not(.enable-transitions) * {
+  // disable transitions on Android 2
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+

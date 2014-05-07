@@ -182,6 +182,9 @@ body.grade-c {
       line-height: 16px;
       font-size: 16px;
     }
+    &.ionic-refresher-with-text {
+      bottom: 10px;
+    }
   }
 
   .icon-refreshing,
@@ -324,5 +327,4 @@ ion-infinite-scroll.active .scroll-infinite {
   width: 100%;
   height: 100%;
   background-color: $base-background-color;
-  overflow: hidden;
 }
