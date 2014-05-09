@@ -17,7 +17,6 @@ $ sudo npm install -g ionic
 Then run:
 
 ```bash
-$ sudo npm install -g ionic
 $ ionic start myProject tabs
 ```
 
