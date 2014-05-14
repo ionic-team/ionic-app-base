@@ -346,8 +346,10 @@ $ios7-transition-duration: 250ms;
     bottom: 0;
     left: -1px;
     width: auto;
-    border-right: 1px solid #ddd;
-    border-left: 1px solid #ddd;
+    &:not(.bar) {
+      border-right: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+    }
   }
   > .ng-enter, &.ng-enter {
     /* NEW content placed far RIGHT BEFORE it slides IN from the RIGHT */
@@ -553,6 +555,9 @@ $nav-title-slide-ios7-delay: 250ms;
 
     @include translate3d(0%, 0, 0);
     opacity: 1;
+    &.active, &.activated {
+      opacity: 0.5;
+    }
     &.ng-hide {
       opacity: 0;
       @include translate3d(30%, 0, 0);
