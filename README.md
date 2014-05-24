@@ -33,7 +33,7 @@ To use this project as is, first clone the repo from GitHub, then run:
 $ cd ionic-app-base
 $ sudo npm install -g cordova ionic gulp
 $ npm install
-$ gulp init
+$ gulp install
 ```
 
 ## Using Sass (optional)
