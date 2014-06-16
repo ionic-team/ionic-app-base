@@ -2,7 +2,7 @@
  * Copyright 2014 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.0.0-beta.6
+ * Ionic, v1.0.0-beta.8
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -19,7 +19,7 @@
 window.ionic = {
   controllers: {},
   views: {},
-  version: '1.0.0-beta.6'
+  version: '1.0.0-beta.8'
 };
 
 (function(ionic) {
@@ -164,14 +164,10 @@ window.ionic = {
             };
   })();
 
-  var vendors = ['webkit', 'moz'];
-  for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-    window.cancelAnimationFrame =
-      window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
-  }
-  window.cancelAnimationFrame =
-        window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+  var cancelAnimationFrame = window.cancelAnimationFrame ||
+    window.webkitCancelAnimationFrame ||
+    window.mozCancelAnimationFrame ||
+    window.webkitCancelRequestAnimationFrame;
 
   /**
   * @ngdoc utility
@@ -189,10 +185,11 @@ window.ionic = {
      * happens.
      */
     requestAnimationFrame: function(cb) {
-      window._rAF(cb);
+      return window._rAF(cb);
     },
 
-    cancelAnimationFrame: function(cb) {
+    cancelAnimationFrame: function(requestId) {
+      cancelAnimationFrame(requestId);
     },
 
     /**
@@ -371,7 +368,7 @@ window.ionic = {
     },
     /**
      * @ngdoc method
-     * @name ionic.DomUtil#getParentWithClass
+     * @name ionic.DomUtil#getParentOrSelfWithClass
      * @param {DOMElement} element
      * @param {string} className
      * @returns {DOMElement} The closest parent or self matching the
@@ -968,7 +965,7 @@ window.ionic = {
       }
       // make fake touchlist from mouse position
       else {
-        ev.indentifier = 1;
+        ev.identifier = 1;
         return [ev];
       }
     },
@@ -1607,6 +1604,7 @@ window.ionic = {
           // we trigger the hold event
           this.timer = setTimeout(function() {
             if(ionic.Gestures.detection.current.name == 'hold') {
+              ionic.tap.cancelClick();
               inst.trigger('hold', ev);
             }
           }, inst.options.hold_timeout);
@@ -1666,7 +1664,7 @@ window.ionic = {
         // do a single tap
         if(!did_doubletap || inst.options.tap_always) {
           ionic.Gestures.detection.current.name = 'tap';
-          inst.trigger(ionic.Gestures.detection.current.name, ev);
+          inst.trigger('tap', ev);
         }
       }
     }
@@ -2045,7 +2043,25 @@ window.ionic = {
         for(var i = 0; i < ionic.Platform.platforms.length; i++) {
           document.body.classList.add('platform-' + ionic.Platform.platforms[i]);
         }
-        document.body.classList.add('grade-' + ionic.Platform.grade);
+      });
+    },
+
+    /**
+     * @ngdoc method
+     * @name ionic.Platform#setGrade
+     * @description Set the grade of the device: 'a', 'b', or 'c'. 'a' is the best
+     * (most css features enabled), 'c' is the worst.  By default, sets the grade
+     * depending on the current device.
+     * @param {string} grade The new grade to set.
+     */
+    setGrade: function(grade) {
+      var oldGrade = this.grade;
+      this.grade = grade;
+      ionic.requestAnimationFrame(function() {
+        if (oldGrade) {
+          document.body.classList.remove('grade-' + oldGrade);
+        }
+        document.body.classList.add('grade-' + grade);
       });
     },
 
@@ -2063,7 +2079,7 @@ window.ionic = {
 
     _checkPlatforms: function(platforms) {
       this.platforms = [];
-      this.grade = 'a';
+      var grade = 'a';
 
       if(this.isWebView()) {
         this.platforms.push('webview');
@@ -2089,12 +2105,14 @@ window.ionic = {
           this.platforms.push(platform + v);
 
           if(this.isAndroid() && version < 4.4) {
-            this.grade = (version < 4 ? 'c' : 'b');
+            grade = (version < 4 ? 'c' : 'b');
           } else if(this.isWindowsPhone()) {
-            this.grade = 'b';
+            grade = 'b';
           }
         }
       }
+
+      this.setGrade(grade);
     },
 
     /**
@@ -2564,7 +2582,8 @@ ionic.tap = {
            (e.target.isContentEditable) ||
            (/^(file|range)$/i).test(e.target.type) ||
            (e.target.dataset ? e.target.dataset.preventScroll : e.target.getAttribute('data-prevent-default')) == 'true' || // manually set within an elements attributes
-           (!!(/^(object|embed)$/i).test(e.target.tagName));  // flash/movie/object touches should not try to scroll
+           (!!(/^(object|embed)$/i).test(e.target.tagName)) ||  // flash/movie/object touches should not try to scroll
+           ionic.tap.isElementTapDisabled(e.target); // check if this element, or an ancestor, has `data-tap-disabled` attribute
   },
 
   isTextInput: function(ele) {
@@ -2633,7 +2652,11 @@ ionic.tap = {
     if(!ele || ele.disabled || (/^(file|range)$/i).test(ele.type) || (/^(object|video)$/i).test(ele.tagName) ) {
       return true;
     }
-    if(ele.nodeType === 1) {
+    return ionic.tap.isElementTapDisabled(ele);
+  },
+
+  isElementTapDisabled: function(ele) {
+    if(ele && ele.nodeType === 1) {
       var element = ele;
       while(element) {
         if( (element.dataset ? element.dataset.tapDisabled : element.getAttribute('data-tap-disabled')) == 'true' ) {
@@ -2648,6 +2671,12 @@ ionic.tap = {
   setTolerance: function(releaseTolerance, releaseButtonTolerance) {
     TAP_RELEASE_TOLERANCE = releaseTolerance;
     TAP_RELEASE_BUTTON_TOLERANCE = releaseButtonTolerance;
+  },
+
+  cancelClick: function() {
+    // used to cancel any simulated clicks which may happen on a touchend/mouseup
+    // gestures uses this method within its tap and hold events
+    tapPointerMoved = true;
   }
 
 };
@@ -2909,7 +2938,7 @@ function tapActiveElement(ele) {
 }
 
 function tapHasPointerMoved(endEvent) {
-  if(!endEvent || !tapPointerStart || ( tapPointerStart.x === 0 && tapPointerStart.y === 0 )) {
+  if(!endEvent || endEvent.target.nodeType !== 1 || !tapPointerStart || ( tapPointerStart.x === 0 && tapPointerStart.y === 0 )) {
     return false;
   }
   var endCoordinates = getPointerCoordinates(endEvent);
@@ -4073,6 +4102,8 @@ ionic.views.Scroll = ionic.views.View.inherit({
       /** Multiply or decrease scrolling speed **/
       speedMultiplier: 1,
 
+      deceleration: 0.97,
+
       /** Callback that is fired on the later of touch end or deceleration end,
         provided that another scrolling action has not begun. Used to know
         when to fade out a scrollbar. */
@@ -4537,7 +4568,9 @@ ionic.views.Scroll = ionic.views.View.inherit({
         }
         self.doTouchStart(getEventTouches(e), e.timeStamp);
 
-        e.preventDefault();
+        if( !ionic.tap.isTextInput(e.target) ) {
+          e.preventDefault();
+        }
         mousedown = true;
       };
 
@@ -4567,7 +4600,7 @@ ionic.views.Scroll = ionic.views.View.inherit({
 
           self.hintResize();
           self.scrollBy(
-            e.wheelDeltaX/self.options.wheelDampen, 
+            e.wheelDeltaX/self.options.wheelDampen,
             -e.wheelDeltaY/self.options.wheelDampen
           );
 
@@ -5304,6 +5337,9 @@ ionic.views.Scroll = ionic.views.View.inherit({
     self.__initialTouchLeft = currentTouchLeft;
     self.__initialTouchTop = currentTouchTop;
 
+    // Store initial touchList for scale calculation
+    self.__initialTouches = touches;
+
     // Store current zoom level
     self.__zoomLevelStart = self.__zoomLevel;
 
@@ -5363,6 +5399,11 @@ ionic.views.Scroll = ionic.views.View.inherit({
     if (touches.length === 2) {
       currentTouchLeft = Math.abs(touches[0].pageX + touches[1].pageX) / 2;
       currentTouchTop = Math.abs(touches[0].pageY + touches[1].pageY) / 2;
+
+      // Calculate scale when not present and only when touches are used
+      if (!scale && self.options.zooming) {
+        scale = self.__getScale(self.__initialTouches, touches);
+      }
     } else {
       currentTouchLeft = touches[0].pageX;
       currentTouchTop = touches[0].pageY;
@@ -5864,8 +5905,8 @@ ionic.views.Scroll = ionic.views.View.inherit({
     //
 
     // Add deceleration to scroll position
-    var scrollLeft = self.__scrollLeft + self.__decelerationVelocityX;
-    var scrollTop = self.__scrollTop + self.__decelerationVelocityY;
+    var scrollLeft = self.__scrollLeft + self.__decelerationVelocityX;// * self.options.deceleration);
+    var scrollTop = self.__scrollTop + self.__decelerationVelocityY;// * self.options.deceleration);
 
 
     //
@@ -5915,7 +5956,7 @@ ionic.views.Scroll = ionic.views.View.inherit({
       // This is the factor applied to every iteration of the animation
       // to slow down the process. This should emulate natural behavior where
       // objects slow down when the initiator of the movement is removed
-      var frictionFactor = 0.95;
+      var frictionFactor = self.options.deceleration;
 
       self.__decelerationVelocityX *= frictionFactor;
       self.__decelerationVelocityY *= frictionFactor;
@@ -5974,6 +6015,39 @@ ionic.views.Scroll = ionic.views.View.inherit({
         }
       }
     }
+  },
+
+
+  /**
+   * calculate the distance between two touches
+   * @param   {Touch}     touch1
+   * @param   {Touch}     touch2
+   * @returns {Number}    distance
+   */
+  __getDistance: function getDistance(touch1, touch2) {
+    var x = touch2.pageX - touch1.pageX,
+    y = touch2.pageY - touch1.pageY;
+    return Math.sqrt((x*x) + (y*y));
+  },
+
+
+  /**
+   * calculate the scale factor between two touchLists (fingers)
+   * no scale is 1, and goes down to 0 when pinched together, and bigger when pinched out
+   * @param   {Array}     start
+   * @param   {Array}     end
+   * @returns {Number}    scale
+   */
+  __getScale: function getScale(start, end) {
+
+    var self = this;
+
+    // need two fingers...
+    if(start.length >= 2 && end.length >= 2) {
+      return self.__getDistance(end[0], end[1]) /
+        self.__getDistance(start[0], start[1]);
+    }
+    return 1;
   }
 });
 
@@ -5981,33 +6055,6 @@ ionic.scroll = {
   isScrolling: false,
   lastTop: 0
 };
-
-})(ionic);
-
-(function(ionic) {
-'use strict';
-  /**
-   * An ActionSheet is the slide up menu popularized on iOS.
-   *
-   * You see it all over iOS apps, where it offers a set of options 
-   * triggered after an action.
-   */
-  ionic.views.ActionSheet = ionic.views.View.inherit({
-    initialize: function(opts) {
-      this.el = opts.el;
-    },
-    show: function() {
-      // Force a reflow so the animation will actually run
-      this.el.offsetWidth;
-
-      this.el.classList.add('active');
-    },
-    hide: function() {
-      // Force a reflow so the animation will actually run
-      this.el.offsetWidth;
-      this.el.classList.remove('active');
-    }
-  });
 
 })(ionic);
 
@@ -6056,7 +6103,10 @@ ionic.scroll = {
 
           childSize = null;
           if(c.nodeType == 3) {
-            childSize = ionic.DomUtil.getTextBounds(c).width;
+            var bounds = ionic.DomUtil.getTextBounds(c);
+            if(bounds) {
+              childSize = bounds.width;
+            }
           } else if(c.nodeType == 1) {
             childSize = c.offsetWidth;
           }
@@ -6291,6 +6341,15 @@ ionic.scroll = {
     this.el = opts.el;
     this.scrollEl = opts.scrollEl;
     this.scrollView = opts.scrollView;
+    // Get the True Top of the list el http://www.quirksmode.org/js/findpos.html
+    this.listElTrueTop = 0;
+    if (this.listEl.offsetParent) {
+      var obj = this.listEl;
+      do {
+        this.listElTrueTop += obj.offsetTop;
+        obj = obj.offsetParent;
+      } while (obj);
+    }
   };
 
   ReorderDrag.prototype = new DragOp();
@@ -6298,9 +6357,8 @@ ionic.scroll = {
   ReorderDrag.prototype._moveElement = function(e) {
     var y = e.gesture.center.pageY +
       this.scrollView.getValues().top -
-      this.scrollView.__container.offsetTop -
       (this._currentDrag.elementHeight / 2) -
-      this.listEl.offsetTop;
+      this.listElTrueTop;
     this.el.style[ionic.CSS.TRANSFORM] = 'translate3d(0, '+y+'px, 0)';
   };
 
@@ -6336,7 +6394,7 @@ ionic.scroll = {
 
     var scrollY = 0;
     var pageY = e.gesture.center.pageY;
-    var offset = this.listEl.offsetTop + this.scrollView.__container.offsetTop;
+    var offset = this.listElTrueTop;
 
     //If we have a scrollView, check scroll boundaries for dragged element and scroll if necessary
     if (this.scrollView) {
@@ -6669,6 +6727,7 @@ ionic.scroll = {
         unfocusOnHide: true,
         focusFirstDelay: 600,
         backdropClickToClose: true,
+        hardwareBackButtonClose: true,
       }, opts);
 
       ionic.extend(this, opts);
@@ -7280,6 +7339,10 @@ ionic.views.Slider = ionic.views.View.inherit({
     this.stop = function() {
       // cancel slideshow
       stop();
+    };
+
+    this.start = function() {
+      begin();
     };
 
     this.currentIndex = function() {
