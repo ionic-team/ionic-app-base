@@ -52,6 +52,11 @@ the include to your `ionic.app.css` file which now contains all your Sass code a
 -->
 ```
 
+To enable live recompilation of your sass uncomment the line in `gulpfile.js`
+```
+//gulp.watch(paths.sass, ['sass']);
+```
+
 ## Updating Ionic
 
 To update to a new version of Ionic, open bower.json and change the version listed there.
