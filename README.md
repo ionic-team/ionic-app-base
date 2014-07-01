@@ -36,6 +36,15 @@ $ npm install
 $ gulp install
 ```
 
+## livereload
+
+The ionic-cli does not yet support live reloading. This project however does.
+Simply run
+```bash
+$ gulp serve
+```
+and open your browser to `localhost:1881`
+
 ## Using Sass (optional)
 
 This project makes it easy to use Sass (the SCSS syntax) in your projects. This enables you to override styles from Ionic, and benefit from
