@@ -34,7 +34,10 @@ gulp.task('watch', function() {
 
 gulp.task('www', function(done) {
 	console.log('gulp watch log info : www directory changed.');
-  cp('-Rf', 'www', 'platforms/ios/');
+  
+	if (test('-d', 'platforms/ios/')) { 
+		cp('-Rf', 'www', 'platforms/ios/');
+	};
 });
 
 
