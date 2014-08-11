@@ -6,9 +6,11 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+require('shelljs/global');
 
 var paths = {
-  sass: ['./scss/**/*.scss']
+  sass: ['./scss/**/*.scss'],
+  www_watch: ['./www/**/**'],
 };
 
 gulp.task('default', ['sass']);
@@ -27,7 +29,14 @@ gulp.task('sass', function(done) {
 
 gulp.task('watch', function() {
   gulp.watch(paths.sass, ['sass']);
+  gulp.watch(paths.www_watch, ['www']);
 });
+
+gulp.task('www', function(done) {
+	console.log('gulp watch log info : www directory changed.');
+  cp('-Rf', 'www', 'platforms/ios/');
+});
+
 
 gulp.task('install', ['git-check'], function() {
   return bower.commands.install()
