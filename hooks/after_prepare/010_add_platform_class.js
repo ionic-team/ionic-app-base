@@ -38,7 +38,7 @@ function addPlatformBodyTag(indexPath, platform) {
 
     } else {
       // add class attribute to the body tag
-      newBodyTag = bodyTag.replace('>', ' class="' + platformClass + ' ' + cordovaClass + '">')
+      newBodyTag = bodyTag.replace('>', ' class="' + platformClass + ' ' + cordovaClass + '">');
     }
 
     html = html.replace(bodyTag, newBodyTag);
