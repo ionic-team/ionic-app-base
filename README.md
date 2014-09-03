@@ -34,6 +34,13 @@ $ sudo npm install -g cordova ionic gulp
 $ npm install
 $ gulp install
 ```
+## Using gulp-connect (optional)
+
+You can execute 
+```bash
+$ gulp serve
+```
+to host the contents of `www` folder on `http://localhost:1881`. You can update the connect config with your settings (_if needed_) in the `gulpfile.js`.
 
 ## Using Sass (optional)
 
