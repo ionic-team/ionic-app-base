@@ -12,6 +12,9 @@
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
+    
+    <!-- Ionic supports Android Jellybean and up --> 
+    <preference name="android-minSdkVersion" value="16" />
 
     <!-- Don't store local data in an iCloud backup. Turn this to "cloud" to enable storage 
          to be sent to iCloud. Note: enabling this could result in Apple rejecting your app.
