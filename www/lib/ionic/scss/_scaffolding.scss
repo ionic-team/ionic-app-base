@@ -83,6 +83,14 @@ body.grade-c {
   display: block;
   overflow: hidden;
 
+  &.overflow-scroll {
+    position: relative;
+  }
+
+  &.scroll-x { overflow-x: scroll; overflow-y: hidden; }
+  &.scroll-y { overflow-x: hidden; overflow-y: scroll; }
+  &.scroll-xy { overflow-x: scroll; overflow-y: scroll; }
+
   // Hide the top border if any
   margin-top: -1px;
 }
@@ -185,6 +193,10 @@ ion-infinite-scroll {
   overflow-x: hidden;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+
+  // Make sure the scrollbar doesn't take up layout space on edge
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
   top: 0;
   right: 0;
   bottom: 0;
@@ -234,6 +246,10 @@ ion-infinite-scroll {
     bottom: $tabs-height;
     height:auto;
   }
+}
+
+.bar-subfooter.has-tabs {
+  bottom: $tabs-height + $bar-footer-height;
 }
 
 .has-footer.has-tabs {
