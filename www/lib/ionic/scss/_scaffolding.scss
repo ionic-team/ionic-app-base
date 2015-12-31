@@ -36,6 +36,7 @@ body,
   color: $base-color;
   word-wrap: break-word;
   font-size: $font-size-base;
+  font-family: -apple-system;
   font-family: $font-family-base;
   line-height: $line-height-computed;
   text-rendering: optimizeLegibility;
@@ -207,6 +208,10 @@ ion-infinite-scroll {
     position: static;
     height: 100%;
     -webkit-transform: translate3d(0, 0, 0);   // fix iOS bug where relative children of scroller disapear while scrolling.  see: http://stackoverflow.com/questions/9807620/ipad-safari-scrolling-causes-html-elements-to-disappear-and-reappear-with-a-dela
+  }
+
+  &.keyboard-up:not(.keyboard-up-confirm) {
+    overflow: hidden;
   }
 }
 
