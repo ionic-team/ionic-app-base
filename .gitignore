@@ -4,3 +4,6 @@
 node_modules/
 platforms/
 plugins/
+resources/
+hooks/
+www/lib/
