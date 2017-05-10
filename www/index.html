@@ -16,7 +16,16 @@
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+    <!-- cordova script could be auto-injected by ionic-engine, load it conditionally -->
+    <script>
+      if (!cordova) {
+        var head = document.getElementsByTagName('head')[0];
+        var js = document.createElement("script");
+        js.type = "text/javascript";
+        js.src = "cordova.js";
+        head.appendChild(js);
+      }
+    </script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
