@@ -13,10 +13,10 @@ For example, to start a new Ionic project with the default tabs interface, make 
 $ npm install -g ionic cordova
 ```
 
-Then run: 
+Then run:
 
 ```bash
-$ ionic start myProject tabs --type=ionic1 --cordova
+$ ionic start myProject tabs --type=ionic1
 ```
 
 More info on this can be found on the Ionic [Getting Started](https://ionicframework.com/getting-started) page and the [Ionic CLI](https://github.com/ionic-team/ionic-cli) repo.
