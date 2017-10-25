@@ -9,7 +9,7 @@
  * Copyright 2015 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.3.3
+ * Ionic, v1.3.4
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -25,7 +25,7 @@
 // build processes may have already created an ionic obj
 window.ionic = window.ionic || {};
 window.ionic.views = {};
-window.ionic.version = '1.3.3';
+window.ionic.version = '1.3.4';
 
 (function (ionic) {
 
@@ -2673,7 +2673,7 @@ window.ionic.version = '1.3.3';
  * - Works with labels surrounding inputs
  * - Does not fire off a click if the user moves the pointer too far
  * - Adds and removes an 'activated' css class
- * - Multiple [unit tests](https://github.com/driftyco/ionic/blob/1.x/test/unit/utils/tap.unit.js) for each scenario
+ * - Multiple [unit tests](https://github.com/ionic-team/ionic/blob/1.x/test/unit/utils/tap.unit.js) for each scenario
  *
  */
 /*
@@ -3578,7 +3578,7 @@ ionic.DomUtil.ready(function() {
  * which can cause layout issues such as pushing headers up and out of view.
  *
  * The keyboard fixes work best in conjunction with the
- * [Ionic Keyboard Plugin](https://github.com/driftyco/ionic-plugins-keyboard),
+ * [Ionic Keyboard Plugin](https://github.com/ionic-team/ionic-plugins-keyboard),
  * although it will perform reasonably well without.  However, if you are using
  * Cordova there is no reason not to use the plugin.
  *
@@ -3609,7 +3609,7 @@ ionic.DomUtil.ready(function() {
  *
  * ### Plugin Usage
  * Information on using the plugin can be found at
- * [https://github.com/driftyco/ionic-plugins-keyboard](https://github.com/driftyco/ionic-plugins-keyboard).
+ * [https://github.com/ionic-team/ionic-plugins-keyboard](https://github.com/ionic-team/ionic-plugins-keyboard).
  *
  * ----------
  *
@@ -53185,7 +53185,7 @@ angular.module('ui.router.state')
  * Copyright 2015 Drifty Co.
  * http://drifty.com/
  *
- * Ionic, v1.3.3
+ * Ionic, v1.3.4
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
@@ -55571,7 +55571,7 @@ function($ionicLoadingConfig, $ionicBody, $ionicTemplateLoader, $ionicBackdrop, 
   function showLoader(options) {
     options = extend({}, $ionicLoadingConfig || {}, options || {});
     // use a default delay of 100 to avoid some issues reported on github
-    // https://github.com/driftyco/ionic/issues/3717
+    // https://github.com/ionic-team/ionic/issues/3717
     var delay = options.delay || options.showDelay || 0;
 
     deregisterStateListener1();
@@ -55705,7 +55705,7 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
      *    Default: 'slide-in-up'
      *  - `{boolean=}` `focusFirstInput` Whether to autofocus the first input of
      *    the modal when shown. Will only show the keyboard on iOS, to force the keyboard to show
-     *    on Android, please use the [Ionic keyboard plugin](https://github.com/driftyco/ionic-plugin-keyboard#keyboardshow).
+     *    on Android, please use the [Ionic keyboard plugin](https://github.com/ionic-team/ionic-plugin-keyboard#keyboardshow).
      *    Default: false.
      *  - `{boolean=}` `backdropClickToClose` Whether to close the modal on clicking the backdrop.
      *    Default: true.
@@ -58397,7 +58397,7 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
  * More info:
  * - https://openradar.appspot.com/22186109
  * - https://github.com/angular/angular.js/issues/12241
- * - https://github.com/driftyco/ionic/issues/4082
+ * - https://github.com/ionic-team/ionic/issues/4082
  *
  *
  * @license AngularJS
@@ -62058,7 +62058,7 @@ IonicModule
  *
  * - The iOS webview has a performance bottleneck when switching out `<img src>` attributes.
  *   To increase performance of images on iOS, cache your images in advance and,
- *   if possible, lower the number of unique images. We're working on [a solution](https://github.com/driftyco/ionic/issues/3194).
+ *   if possible, lower the number of unique images. We're working on [a solution](https://github.com/ionic-team/ionic/issues/3194).
  *
  * @usage
  * #### Basic Item List ([codepen](http://codepen.io/ionic/pen/0c2c35a34a8b18ad4d793fef0b081693))
@@ -64364,7 +64364,7 @@ IonicModule
  *
  * ### Notes
  * - This directive requires the
- * [Ionic Keyboard Plugin](https://github.com/driftyco/ionic-plugins-keyboard).
+ * [Ionic Keyboard Plugin](https://github.com/ionic-team/ionic-plugins-keyboard).
  * - On Android not in fullscreen mode, i.e. you have
  *   `<preference name="Fullscreen" value="false" />` or no preference in your `config.xml` file,
  *   this directive is unnecessary since it is the default behavior.
